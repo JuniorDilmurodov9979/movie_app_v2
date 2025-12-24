@@ -21,10 +21,17 @@ export default defineConfig({
     }),
     tailwindcss(),
   ],
-    resolve: {
+  resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
   },
-
+  build: {
+    rollupOptions: {
+      onwarn(warning, warn) {
+        if (warning.code === "TS2307") return;
+        warn(warning);
+      },
+    },
+  },
 });

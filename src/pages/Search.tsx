@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import MovieCard from "../components/MovieCard";
 import { searchMovies } from "../services/searchMovies";
+import type { Movie } from "../types/movie";
 
 const Search = () => {
   const [searchParams] = useSearchParams();
 
   const [query, setQuery] = useState("");
-  const [movies, setMovies] = useState<any[]>([]);
+  const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {

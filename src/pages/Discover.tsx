@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import MovieCard from "@/components/MovieCard";
-import { tmdb } from "@/services/tmdb";
+import { Button } from "../components/ui/button";
+import MovieCard from "../components/MovieCard";
+import { tmdb } from "../services/tmdb";
 import { Input } from "../components/ui/custom_input";
-import type { Movie } from "@/types/movie";
+import type { Movie } from "../types/movie";
 import type { TMDBGenreResponse } from "../types/tmdb";
 
 type Genre = {
