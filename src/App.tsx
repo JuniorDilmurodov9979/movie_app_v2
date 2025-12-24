@@ -3,7 +3,6 @@ import Navbar from "./components/layout/Navbar";
 import { BackgroundBeams } from "./components/ui/background-beams";
 
 import Home from "./pages/Home";
-import Movies from "./pages/movies";
 import MovieDetails from "./pages/movie-details";
 import Trending from "./pages/Trending";
 import NotFound from "./pages/NotFound";
@@ -12,6 +11,7 @@ import Search from "./pages/Search";
 import Favorites from "./pages/Favorites";
 import Discover from "./pages/Discover";
 import ScrollToTop from "./components/scroll-to-top";
+import Movies from "./pages/Movies";
 
 function App() {
   return (
@@ -44,7 +44,6 @@ function App() {
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
-        
       </div>
     </div>
   );

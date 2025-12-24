@@ -98,7 +98,7 @@ export const InfiniteMovingCards = ({
             : undefined,
         }}
       >
-        {items.map((item, idx) => (
+        {items.map((item, _) => (
           <li
             className="relative w-[320px] shrink-0 rounded-2xl bg-white/10 backdrop-blur border border-white/15 px-6 py-5"
             key={item.id}
