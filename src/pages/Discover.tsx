@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { Button } from "../components/ui/button";
+
 import MovieCard from "../components/MovieCard";
 import { tmdb } from "../services/tmdb";
 import { Input } from "../components/ui/custom_input";
 import type { Movie } from "../types/movie";
-import type { TMDBGenreResponse } from "../types/tmdb";
+import type { TMDBGenreResponse, TMDBPaginatedResponse } from "../types/tmdb";
+import { Button } from "antd";
 
 type Genre = {
   id: number;
@@ -38,12 +39,30 @@ const Discover = () => {
       "vote_average.gte": rating,
     });
 
-    const data = await tmdb(`/discover/movie?${params}`);
+    const data = await tmdb<TMDBPaginatedResponse<Movie>>(
+      `/discover/movie?${params}`
+    );
+
     setMovies(data.results || []);
   };
 
   useEffect(() => {
-    discoverMovies();
+    const run = async () => {
+      const params = new URLSearchParams({
+        sort_by: sort,
+        with_genres: genre,
+        primary_release_year: year,
+        "vote_average.gte": rating,
+      });
+
+      const data = await tmdb<TMDBPaginatedResponse<Movie>>(
+        `/discover/movie?${params}`
+      );
+
+      setMovies(data.results);
+    };
+
+    run();
   }, [genre, year, rating, sort]);
 
   const searchMovies = async () => {
@@ -52,7 +71,9 @@ const Discover = () => {
       return;
     }
 
-    const data = await tmdb(`/search/movie?query=${encodeURIComponent(query)}`);
+    const data = await tmdb<TMDBPaginatedResponse<Movie>>(
+      `/search/movie?query=${encodeURIComponent(query)}`
+    );
     setMovies(data.results || []);
   };
 
@@ -130,7 +151,7 @@ const Discover = () => {
           <option value="vote_average.desc">Top Rated</option>
           {/* <option value="release_date.desc">Newest</option> */}
         </select>
-        <Button variant="destructive" onClick={resetFilters}>
+        <Button color="red" variant="solid" onClick={resetFilters}>
           Reset filters
         </Button>
       </div>
@@ -138,7 +159,7 @@ const Discover = () => {
       {/* Results */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6">
         {movies.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} type="movie" />
+          <MovieCard key={movie.id} movie={movie} type="movies" />
         ))}
       </div>
     </div>

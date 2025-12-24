@@ -1,13 +1,18 @@
 import { useEffect, useState } from "react";
 import { tmdb } from "../services/tmdb";
 import MovieGrid from "../components/MovieGrid";
+import type { MovieSummary } from "../types/movie-summary";
+
+interface PopularMoviesResponse {
+  results: MovieSummary[];
+}
 
 export default function Movies() {
-  const [movies, setMovies] = useState<any[]>([]);
+  const [movies, setMovies] = useState<MovieSummary[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    tmdb("/movie/popular")
+    tmdb<PopularMoviesResponse>("/movie/popular")
       .then((data) => setMovies(data.results))
       .finally(() => setLoading(false));
   }, []);

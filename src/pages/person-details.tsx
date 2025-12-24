@@ -1,13 +1,30 @@
 // src/pages/person-details.tsx
 import { useParams, Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { tmdb } from "../services/tmdb";
 import { CalendarIcon, MapPinIcon, FilmIcon } from "@heroicons/react/24/solid";
 
 export default function PersonDetails() {
   const { id } = useParams();
-  const [person, setPerson] = useState<any>(null);
-  const [movies, setMovies] = useState<any[]>([]);
+  interface PersonDetails {
+    id: number;
+    name: string;
+    profile_path: string | null;
+    known_for_department: string;
+    birthday: string | null;
+    place_of_birth: string | null;
+    biography: string | null;
+  }
+
+  interface PersonMovieCredit {
+    id: number;
+    title: string;
+    poster_path: string | null;
+    popularity: number;
+  }
+
+  const [person, setPerson] = useState<PersonDetails | null>(null);
+  const [movies, setMovies] = useState<PersonMovieCredit[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -15,13 +32,25 @@ export default function PersonDetails() {
 
     setLoading(true);
 
-    Promise.all([tmdb(`/person/${id}`), tmdb(`/person/${id}/movie_credits`)])
+    Promise.all([
+      tmdb<PersonDetails>(`/person/${id}`),
+      tmdb<{ cast: PersonMovieCredit[] }>(`/person/${id}/movie_credits`),
+    ])
       .then(([personData, creditsData]) => {
         setPerson(personData);
         setMovies(creditsData.cast || []);
       })
       .finally(() => setLoading(false));
   }, [id]);
+
+  const age = useMemo(() => {
+    if (!person?.birthday) return null;
+
+    const birthTime = new Date(person.birthday).getTime();
+    const now = Date.now();
+
+    return Math.floor((now - birthTime) / (1000 * 60 * 60 * 24 * 365.25));
+  }, [person?.birthday]);
 
   if (loading) {
     return <p className="text-white text-center py-32">Loading person...</p>;
@@ -30,13 +59,6 @@ export default function PersonDetails() {
   if (!person) {
     return <p className="text-white text-center py-32">Person not found</p>;
   }
-
-  const age =
-    person.birthday &&
-    Math.floor(
-      (Date.now() - new Date(person.birthday).getTime()) /
-        (1000 * 60 * 60 * 24 * 365.25)
-    );
 
   return (
     <div className="relative text-white overflow-hidden rounded-xl">

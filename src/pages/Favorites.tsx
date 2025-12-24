@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const TMDB_IMG = "https://image.tmdb.org/t/p/w500";
@@ -12,14 +12,10 @@ type Movie = {
 };
 
 const Favorites = () => {
-  const [favorites, setFavorites] = useState<Movie[]>([]);
-
-  useEffect(() => {
+  const [favorites, setFavorites] = useState<Movie[]>(() => {
     const stored = localStorage.getItem("favorites");
-    if (stored) {
-      setFavorites(JSON.parse(stored));
-    }
-  }, []);
+    return stored ? JSON.parse(stored) : [];
+  });
 
   const removeFromFavorites = (id: number) => {
     const updated = favorites.filter((movie) => movie.id !== id);
@@ -48,9 +44,7 @@ const Favorites = () => {
 
   return (
     <div className="px-6 py-8">
-      <h1 className="text-3xl font-bold text-white mb-6">
-        Your Favorites
-      </h1>
+      <h1 className="text-3xl font-bold text-white mb-6">Your Favorites</h1>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
         {favorites.map((movie) => (

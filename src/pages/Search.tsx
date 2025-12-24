@@ -20,8 +20,10 @@ const Search = () => {
 
     searchMovies(q)
       .then((data) => setMovies(data.results))
+
       .finally(() => setLoading(false));
   }, [searchParams]);
+  console.log("movies", movies);
 
   return (
     <div className="min-h-screen px-6 py-8 text-white">

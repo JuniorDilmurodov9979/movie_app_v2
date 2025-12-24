@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import { tmdb } from "../services/tmdb";
 import MovieGrid from "../components/MovieGrid";
+import type { TMDBPaginatedResponse } from "../types/tmdb";
+import type { Movie } from "../types/movie";
 
 export default function Trending() {
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    tmdb("/trending/movie/week")
-      .then((data) => setMovies(data.results || []))
+    tmdb<TMDBPaginatedResponse<Movie>>("/trending/movie/week")
+      .then((data) => setMovies(data.results))
       .finally(() => setLoading(false));
   }, []);
 

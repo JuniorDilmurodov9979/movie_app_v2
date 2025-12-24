@@ -10,42 +10,59 @@ import {
   PlayIcon,
   XMarkIcon,
 } from "@heroicons/react/24/solid";
-import { HoverEffect } from "@/components/ui/custom_card-hover-effect";
+import { HoverEffect } from "../components/ui/custom_card-hover-effect";
 import { GlareCard } from "../components/ui/custom_glare-card";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, FreeMode } from "swiper/modules";
-import "swiper/css";
+import "swiper/swiper.css";
+
 import { InfiniteMovingCards } from "../components/ui/custom_infinite-moving-cards";
+import type { CastMember } from "../types/cast";
+import type { MovieDetails, MovieSummary } from "../types/movie-summary";
+import type { MovieImages } from "../types/movie-image";
+import type { Review } from "../types/reviews";
+import type { WatchProvider } from "../types/provider";
 
 export default function MovieDetails() {
   const { id } = useParams();
-  const [movie, setMovie] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-  const [cast, setCast] = useState<any[]>([]);
-  const [similar, setSimilar] = useState<any[]>([]);
+  const [movie, setMovie] = useState<MovieDetails | null>(null);
+  const [loading, setLoading] = useState<boolean>(!!id);
+  const [cast, setCast] = useState<CastMember[]>([]);
+  const [similar, setSimilar] = useState<MovieSummary[]>([]);
   const [trailerKey, setTrailerKey] = useState<string | null>(null);
-  const [images, setImages] = useState<{ backdrops: any[]; posters: any[] }>({
+  const [images, setImages] = useState<MovieImages>({
     backdrops: [],
     posters: [],
   });
   const [activeImage, setActiveImage] = useState<string | null>(null);
   const [showTrailer, setShowTrailer] = useState(false);
-  const [providers, setProviders] = useState<any[]>([]);
-  const [reviews, setReviews] = useState<any[]>([]);
+  const [providers, setProviders] = useState<WatchProvider[]>([]);
+  const [reviews, setReviews] = useState<Review[]>([]);
 
   useEffect(() => {
     if (!id) return;
 
-    setLoading(true);
-
     Promise.all([
-      tmdb(`/movie/${id}`),
-      tmdb(`/movie/${id}/credits`),
-      tmdb(`/movie/${id}/similar`),
-      tmdb(`/movie/${id}/videos`),
-      tmdb(`/movie/${id}/images`),
-      tmdb(`/movie/${id}/watch/providers`),
-      tmdb(`/movie/${id}/reviews`),
+      tmdb<MovieDetails>(`/movie/${id}`),
+
+      tmdb<{ cast: CastMember[] }>(`/movie/${id}/credits`),
+
+      tmdb<{ results: MovieSummary[] }>(`/movie/${id}/similar`),
+
+      tmdb<{ results: { key: string; site: string; type: string }[] }>(
+        `/movie/${id}/videos`
+      ),
+
+      tmdb<MovieImages>(`/movie/${id}/images`),
+
+      tmdb<{
+        results: {
+          US?: { flatrate?: WatchProvider[] };
+          GB?: { flatrate?: WatchProvider[] };
+        };
+      }>(`/movie/${id}/watch/providers`),
+
+      tmdb<{ results: Review[] }>(`/movie/${id}/reviews`),
     ])
       .then(
         ([
@@ -58,23 +75,20 @@ export default function MovieDetails() {
           reviewsData,
         ]) => {
           setMovie(movieData);
-          setCast(creditsData.cast || []);
-          setSimilar(similarData.results || []);
-          setImages({
-            backdrops: imagesData.backdrops || [],
-            posters: imagesData.posters || [],
-          });
-          const region =
-            providersData.results?.US ||
-            providersData.results?.GB ||
-            providersData.results?.results?.[0];
-          const flatrate = region?.flatrate || [];
-          setProviders(flatrate);
-          const trailer = videosData.results?.find(
-            (v: any) => v.type === "Trailer" && v.site === "YouTube"
+          setCast(creditsData.cast);
+          setSimilar(similarData.results);
+          setImages(imagesData);
+
+          const region = providersData.results.US || providersData.results.GB;
+
+          setProviders(region?.flatrate || []);
+
+          const trailer = videosData.results.find(
+            (v) => v.type === "Trailer" && v.site === "YouTube"
           );
-          setTrailerKey(trailer?.key || null);
-          setReviews(reviewsData.results || []);
+
+          setTrailerKey(trailer?.key ?? null);
+          setReviews(reviewsData.results);
         }
       )
       .finally(() => setLoading(false));
@@ -104,8 +118,7 @@ export default function MovieDetails() {
   const formatMoney = (n: number) =>
     n && n > 0 ? `$${n.toLocaleString()}` : "N/A";
 
-  // prevent crash if TMDB has no providers
-  const hasProviders = providers && providers.length > 0;
+  console.log(providers);
 
   return (
     <>
@@ -141,7 +154,7 @@ export default function MovieDetails() {
               {/* Genres */}
               {movie.genres?.length > 0 && (
                 <div className="flex flex-wrap gap-2 mb-6">
-                  {movie.genres.map((genre: any) => (
+                  {movie.genres.map((genre) => (
                     <span
                       key={genre.id}
                       className="text-xs font-medium px-3 py-1 rounded-full
@@ -347,7 +360,7 @@ export default function MovieDetails() {
                 id: r.id,
                 author: r.author,
                 content: r.content,
-                rating: r.author_details?.rating,
+                rating: r.author_details?.rating ?? undefined,
                 url: r.url,
               }))}
               direction="left"

@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn } from "../../lib/utils";
 import React, { useEffect, useState } from "react";
 
 export const InfiniteMovingCards = ({
@@ -79,7 +79,7 @@ export const InfiniteMovingCards = ({
         className
       )}
     >
-      <style jsx>{`
+      <style>{`
         @keyframes scroll {
           to {
             transform: translateX(-50%);

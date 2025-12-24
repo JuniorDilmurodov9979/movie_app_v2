@@ -1,6 +1,6 @@
 // src/components/MovieGrid.tsx
 import MovieCard from "./MovieCard";
-import type { Movie } from "@/types/movie";
+import type { Movie } from "../types/movie";
 
 type MovieGridProps = {
   title?: string;
