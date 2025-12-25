@@ -1,73 +1,112 @@
-# React + TypeScript + Vite
+# 🎬 Movie App v2
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern movie discovery web application built with **React**, **TypeScript**, and **Vite**, powered by **The Movie Database (TMDB) API**.  
+The app allows users to explore trending movies, search titles, view detailed information, and discover similar content with a clean, responsive UI.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Live Demo
 
-## React Compiler
+👉 **Live App:** https://movie-app-v2-three-amber.vercel.app/## 📬 Contact
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+If you have questions, feedback, or collaboration ideas, feel free to reach out:
 
-## Expanding the ESLint configuration
+- **Telegram:** [@junior_dilmurodov](https://t.me/junior_dilmurodov)---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 📬 Contact
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+If you have questions, feedback, or collaboration ideas, feel free to reach out:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- **Telegram:** [@junior_dilmurodov](https://t.me/junior_dilmurodov)
+- **Email:** juniordilmurodov@gmail.com
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+## ✨ Features
+
+- 🔍 Search movies by title
+- 🎞 View movie details (overview, rating, release date, runtime)
+- 👥 Cast & similar movies section
+- 📺 Watch trailers (YouTube embed)
+- 🔄 Pagination support
+- ⚡ Fast performance with Vite
+- 📱 Fully responsive design
+
+---
+
+## 🛠 Tech Stack
+
+- **Frontend:** React, TypeScript
+- **Build Tool:** Vite
+- **Styling:** CSS / modern UI components
+- **API:** TMDB (The Movie Database)
+- **Deployment:** Vercel
+
+---
+
+## 📂 Project Structure
+
+```
+src/
+├── components/      # Reusable UI components
+├── pages/           # App pages (Home, Movie Details, etc.)
+├── services/        # API & data fetching logic
+├── types/           # TypeScript types
+├── utils/           # Helper functions
+└── main.tsx
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🔑 Environment Variables
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Create a `.env` file in the root directory:
+
 ```
+VITE_TMDB_API_KEY=your_tmdb_api_key
+VITE_TMDB_READ_TOKEN=your_tmdb_read_token
+```
+
+> ⚠️ Never commit your API keys to GitHub.
+
+---
+
+## 🧑‍💻 Getting Started
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/JuniorDilmurodov9979/movie_app_v2.git
+cd movie_app_v2
+```
+
+### 2. Install dependencies
+```bash
+npm install
+```
+
+### 3. Run the project
+```bash
+npm run dev
+```
+
+---
+
+## 📌 Future Improvements
+
+- ⭐ Favorites & watchlist
+- 🤖 AI-powered movie recommendations
+- 🔐 User authentication
+- 🌙 Dark / light theme toggle
+
+---
+
+## 📄 License
+
+This project is for educational and portfolio purposes.
+
+---
+
+## 🙌 Author
+
+**Junior Dilmurodov**  
+Frontend Developer (React / TypeScript)
