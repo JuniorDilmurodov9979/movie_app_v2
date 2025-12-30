@@ -56,7 +56,7 @@ export default function Navbar() {
   };
 
   const linkClass = ({ isActive }: { isActive: boolean }) =>
-    `flex items-center gap-2 text-sm font-medium transition
+    `relative flex items-center gap-2 text-sm font-medium transition
    ${
      isActive
        ? "text-cyan-400 drop-shadow-[0_0_6px_rgba(34,211,238,0.6)]"
@@ -134,7 +134,12 @@ export default function Navbar() {
               Favorites
             </NavLink>
             <NavLink to="/ai-discover" className={linkClass}>
-              AI Discover
+              <span className="flex items-center gap-2">AI Discover</span>
+              <span
+                className="absolute -top-1 -right-2 h-2 w-2 rounded-full
+                          bg-cyan-400 shadow-[0_0_6px_rgba(34,211,238,0.9)]"
+                aria-label="new feature"
+              ></span>
             </NavLink>
           </div>
 

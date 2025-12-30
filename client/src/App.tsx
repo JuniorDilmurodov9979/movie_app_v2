@@ -12,7 +12,7 @@ import Favorites from "./pages/Favorites";
 import Discover from "./pages/Discover";
 import ScrollToTop from "./components/scroll-to-top";
 import Movies from "./pages/Movies";
-import AIRecommendations from "./pages/ai-recommendations";
+import AIDiscover from "./pages/ai-discover";
 
 function App() {
   return (
@@ -41,7 +41,7 @@ function App() {
             <Route path="/person/:id" element={<PersonDetails />} />
             <Route path="/favorites" element={<Favorites />} />
             <Route path="/discover" element={<Discover />} />
-            <Route path="/ai-discover" element={<AIRecommendations />} />
+            <Route path="/ai-discover" element={<AIDiscover />} />
 
             <Route path="*" element={<NotFound />} />
           </Routes>

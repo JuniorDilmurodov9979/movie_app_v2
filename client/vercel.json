@@ -1,0 +1,7 @@
+{
+  "rewrites": [{ "source": "/(.*)", "destination": "/" }],
+  "devCommand": "vite --port 3000",
+  "buildCommand": "vite build",
+  "outputDirectory": "dist",
+  "framework": "vite"
+}

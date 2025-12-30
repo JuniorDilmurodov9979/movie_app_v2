@@ -28,29 +28,23 @@ export const tmdb = async <T>(endpoint: string): Promise<T> => {
   return res.json() as Promise<T>;
 };
 
-export const searchMovie = async (
-  title: string,
-  year?: number
-): Promise<TMDBMovie | null> => {
-  try {
-    const params = new URLSearchParams({
-      // api_key: TMDB_API_KEY,
-      query: title,
-      ...(year && { year: year.toString() }),
-    });
+export async function searchMovie(title: string, year?: number) {
+  const res = await fetch(
+    `${BASE_URL}/search/movie?query=${encodeURIComponent(title)}&year=${
+      year ?? ""
+    }&api_key=${import.meta.env.VITE_TMDB_API_KEY}`
+  );
 
-    const response = await fetch(`${BASE_URL}/search/movie?${params}`);
-    const data = await response.json();
+  const data = await res.json();
+  return data.results?.[0]; // best match
+}
 
-    if (data.results && data.results.length > 0) {
-      return data.results[0]; // Return best match
-    }
-    return null;
-  } catch (error) {
-    console.error("TMDB search error:", error);
-    return null;
-  }
-};
+export async function getMovieDetails(id: number) {
+  const res = await fetch(
+    `${BASE_URL}/movie/${id}?api_key=${import.meta.env.VITE_TMDB_API_KEY}`
+  );
+  return res.json();
+}
 
 export const getImageUrl = (path: string | null): string => {
   if (!path) return "/placeholder-movie.jpg"; // Add a placeholder image
