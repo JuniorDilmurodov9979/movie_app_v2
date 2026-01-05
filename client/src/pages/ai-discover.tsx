@@ -43,6 +43,7 @@ const EXAMPLE_PROMPTS = [
 
 const STORAGE_KEY = "ai_discover_state";
 const CACHE_DURATION = 30 * 60 * 1000; // 30 minutes
+const BASE_URL = "https://server-movie-app-v2.vercel.app";
 
 export default function AIDiscover() {
   const [prompt, setPrompt] = useState("");
@@ -161,7 +162,7 @@ export default function AIDiscover() {
 
     try {
       // 1️⃣ AI → filters
-      const aiRes = await fetch("/api/ai-discover", {
+      const aiRes = await fetch(`${BASE_URL}/api/ai-discover`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt: finalPrompt }),
@@ -190,7 +191,7 @@ export default function AIDiscover() {
       setFilters(aiFilters);
 
       // 2️⃣ Filters → TMDB
-      const tmdbRes = await fetch("/api/tmdb-discover", {
+      const tmdbRes = await fetch(`${BASE_URL}/api/tmdb-discover`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(aiFilters),
