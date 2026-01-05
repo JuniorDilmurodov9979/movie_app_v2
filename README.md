@@ -7,7 +7,7 @@ The app allows users to explore trending movies, search titles, view detailed in
 
 ## 🚀 Live Demo
 
-👉 **Live App:** https://movie-app-v2-three-amber.vercel.app/## 📬 Contact
+👉 **Live App:** https://movie-app-v2-jr.vercel.app/## 📬 Contact
 
 If you have questions, feedback, or collaboration ideas, feel free to reach out:
 
@@ -31,6 +31,21 @@ If you have questions, feedback, or collaboration ideas, feel free to reach out:
 - 🔄 Pagination support
 - ⚡ Fast performance with Vite
 - 📱 Fully responsive design
+
+
+### NEW 🤖 AI Movie Discovery
+
+* Ask the AI **what you want to watch** in natural language
+  *(e.g. “dark sci-fi movies like Blade Runner”, “fast-paced action after 2018”)*
+
+* The AI intelligently **parses your request** (genres, mood, year, rating, etc.)
+
+* Results are fetched from **TMDB API** and shown instantly
+
+* 🚦 **Rate limited:**
+  Each user can make **up to 20 AI discovery requests per day** to ensure fair usage and performance stability
+
+* ⚠️ When the daily limit is reached, users are informed and can continue browsing movies normally
 
 ---
 
@@ -93,8 +108,6 @@ npm run dev
 
 ## 📌 Future Improvements
 
-- ⭐ Favorites & watchlist
-- 🤖 AI-powered movie recommendations
 - 🔐 User authentication
 - 🌙 Dark / light theme toggle
 
